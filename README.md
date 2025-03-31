@@ -13,6 +13,7 @@ Rust RCON Restart Scheduler is a simple Node.js script that automates your Rust 
 - **Multiple Server Connections:** Easily manage and schedule restarts for multiple Rust servers.
 - **Discord Notifications:** Get notified with a Discord embed when a restart occurs.
 - **Daily Log Rotation:** Logs are stored in a dedicated folder with daily rotation for easy management.
+- **Server Save:** Automatically saves the server state before restarting.
 
 ## Installation
 
