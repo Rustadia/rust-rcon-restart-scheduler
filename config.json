@@ -1,0 +1,13 @@
+{
+    "discordWebhook": "",
+    "servers": [
+      {
+        "name": "Your Server Name",
+        "host": "",
+        "port": 0,
+        "password": "",
+        "dailyRestartTimesUTC": ["HH:MM"]
+      }
+    ]
+  }
+  

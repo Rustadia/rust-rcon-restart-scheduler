@@ -1,0 +1,17 @@
+{
+    "name": "restart-scheduler",
+    "version": "1.0.0",
+    "description": "Rust RCON restart scheduler with dynamic restart countdown, in-game announcements, Discord webhook notifications, and daily log rotation",
+    "main": "server.js",
+    "scripts": {
+      "start": "node server.js"
+    },
+    "dependencies": {
+      "ws": "^8.13.0",
+      "winston": "^3.8.0",
+      "winston-daily-rotate-file": "^4.7.1"
+    },
+    "author": "",
+    "license": "MIT"
+  }
+  
