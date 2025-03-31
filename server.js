@@ -52,6 +52,7 @@ class RconClient {
     this.ws = null;
     this.callbacks = {};
     this.lastIdentifier = 1000;
+    this.commandQueue = [];
     this.connect();
   }
   connect() {
@@ -59,6 +60,11 @@ class RconClient {
     this.ws = new WebSocket(this.url);
     this.ws.on("open", () => {
       logger.info(`[${this.name}] Connected`);
+      // Flush queued commands
+      while (this.commandQueue.length > 0 && this.ws.readyState === WebSocket.OPEN) {
+        const { cmd, callback } = this.commandQueue.shift();
+        this.sendCommand(cmd, callback);
+      }
     });
     this.ws.on("message", (data) => {
       let message;
@@ -76,18 +82,23 @@ class RconClient {
         }
         return;
       }
-      // Removed generic message logging
+      // Generic messages are not logged.
     });
     this.ws.on("close", () => {
-      logger.info(`[${this.name}] Connection closed`);
+      logger.info(`[${this.name}] Connection closed. Reconnecting in 10 seconds...`);
+      setTimeout(() => this.connect(), 10000);
     });
     this.ws.on("error", (err) => {
       logger.error(`[${this.name}] Connection error: ${err}`);
+      if (this.ws.readyState !== WebSocket.CLOSING && this.ws.readyState !== WebSocket.CLOSED) {
+        this.ws.close();
+      }
     });
   }
   sendCommand(cmd, callback) {
-    if (this.ws.readyState !== WebSocket.OPEN) {
-      logger.error(`[${this.name}] WebSocket not open. Cannot send: ${cmd}`);
+    if (!this.ws || this.ws.readyState !== WebSocket.OPEN) {
+      logger.warn(`[${this.name}] Connection not open. Queueing command: ${cmd}`);
+      this.commandQueue.push({ cmd, callback });
       return;
     }
     let identifier = -1;
