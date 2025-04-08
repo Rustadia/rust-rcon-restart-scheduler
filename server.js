@@ -197,7 +197,7 @@ function scheduleRestart(rconClient, eventTime, scheduleName = "Daily restart") 
   });
   setTimeout(() => {
     if (globalDiscordWebhook) {
-      sendDiscordNotification(globalDiscordWebhook, rconClient.name, scheduleName, "Reconnect in 5 minutes");
+      sendDiscordNotification(globalDiscordWebhook, rconClient.name, scheduleName, "We regularly restart our Rust servers to keep things stable — you’ll be able to rejoin in about 5 minutes.");
     }
     rconClient.sendAnnouncement("Restarting now...");
     rconClient.saveServer();
